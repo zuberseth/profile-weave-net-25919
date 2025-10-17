@@ -37,7 +37,7 @@ export const ProjectManager = ({ companies, relationships, onLoadProject }: Proj
         return acc;
       }, {} as Record<string, { x?: number; y?: number }>);
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('projects')
         .insert({
           name: projectName,
@@ -67,7 +67,7 @@ export const ProjectManager = ({ companies, relationships, onLoadProject }: Proj
   const handleLoadDialogOpen = async () => {
     setIsLoadDialogOpen(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('projects')
         .select('*')
         .order('created_at', { ascending: false });
@@ -87,7 +87,7 @@ export const ProjectManager = ({ companies, relationships, onLoadProject }: Proj
   const handleLoadProject = async (project: any) => {
     try {
       // Load companies
-      const { data: companiesData, error: companiesError } = await supabase
+      const { data: companiesData, error: companiesError } = await (supabase as any)
         .from('companies')
         .select('*')
         .in('id', project.company_ids);
@@ -95,7 +95,7 @@ export const ProjectManager = ({ companies, relationships, onLoadProject }: Proj
       if (companiesError) throw companiesError;
 
       // Load relationships
-      const { data: relationshipsData, error: relationshipsError } = await supabase
+      const { data: relationshipsData, error: relationshipsError } = await (supabase as any)
         .from('relationships')
         .select('*')
         .in('id', project.relationship_ids);

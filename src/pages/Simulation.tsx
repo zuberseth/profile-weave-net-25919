@@ -36,7 +36,7 @@ const Simulation = () => {
 
   const handleEntityGenerated = async (profile: any, rawData: string) => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('companies')
         .insert({
           name: profile.name,
@@ -45,14 +45,14 @@ const Simulation = () => {
           risk_appetite: profile.risk_appetite,
           market_position: profile.market_position,
           leadership_style: profile.leadership_style,
-          raw_data_ref: rawData.substring(0, 500), // Store excerpt of raw data
+          raw_data_ref: rawData.substring(0, 500),
         })
         .select()
         .single();
 
       if (error) throw error;
 
-      setCompanies(prev => [...prev, { ...data, x: 100, y: 100 }]);
+      setCompanies(prev => [...prev, { ...(data as any), x: 100, y: 100 }]);
       
       toast({
         title: "Entity profile created",
@@ -81,7 +81,7 @@ const Simulation = () => {
     strength: number
   ) => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('relationships')
         .insert({
           source_company_id: sourceId,
@@ -94,7 +94,7 @@ const Simulation = () => {
 
       if (error) throw error;
 
-      setRelationships(prev => [...prev, data]);
+      setRelationships(prev => [...prev, data as any]);
       
       toast({
         title: "Relationship created",
